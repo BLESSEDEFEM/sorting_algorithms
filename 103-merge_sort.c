@@ -1,6 +1,7 @@
 #include "sort.h"
 
-void merge_subarr(int *subarr, int *buff, size_t front, size_t mid, size_t back);
+void merge_subarr(int *subarr, int *buff, size_t front, size_t mid,
+		size_t back);
 void merge_sort_recursive(int *subarr, int *buff, size_t front, size_t back);
 void merge_sort(int *array, size_t size);
 
@@ -12,7 +13,8 @@ void merge_sort(int *array, size_t size);
  * @mid: The middle index of the array.
  * @back: The back index of the array.
  */
-void merge_subarr(int *subarr, int *buff, size_t front, size_t mid, size_t back)
+void merge_subarr(int *subarr, int *buff, size_t front, size_t mid,
+		size_t back)
 {
 	size_t i, j, k = 0;
 
@@ -69,11 +71,11 @@ void merge_sort(int *array, size_t size)
 
 	if (array == NULL || size < 2)
 		return;
-	
+
 	buff = malloc(sizeof(int) * size);
 	if (buff == NULL)
 		return;
-	
+
 	merge_sort_recursive(array, buff, 0, size);
 
 	free(buff);
