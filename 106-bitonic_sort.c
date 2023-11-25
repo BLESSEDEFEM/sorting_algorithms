@@ -6,14 +6,15 @@
 #include "sort.h"
 
 void swap_ints(int *a, int *b);
-void bitonic_merge(int *array, size_t size, size_t start, size_t seq, char flow);
+void bitonic_merge(int *array, size_t size, size_t start, size_t seq,
+		char flow);
 void bitonic_seq(int *array, size_t size, size_t start, size_t seq, char flow);
 void bitonic_sort(int *array, size_t size);
 
 /**
  * swap_ints - Swap two integers in an array.
  * @a: The first integer to swap.
- * @b: The secind integer to swap.
+ * @b: The second integer to swap.
  */
 void swap_ints(int *a, int *b)
 {
@@ -32,7 +33,8 @@ void swap_ints(int *a, int *b)
  * @seq: The size of the sequence to sort.
  * @flow: The direction to sort in.
  */
-void bitonic_merge(int *array, size_t size, size_t start, size_t seq, char flow)
+void bitonic_merge(int *array, size_t size, size_t start, size_t seq,
+		char flow)
 {
 	size_t i, jump = seq / 2;
 
@@ -41,8 +43,8 @@ void bitonic_merge(int *array, size_t size, size_t start, size_t seq, char flow)
 		for (i = start; i < start + jump; i++)
 		{
 			if ((flow == UP && array[i] > array[i + jump]) ||
-			(flow == DOWN && array[i] < array[i + jump]))
-			swap_ints(array + i, array + i + jump);
+			    (flow == DOWN && array[i] < array[i + jump]))
+				swap_ints(array + i, array + i + jump);
 		}
 		bitonic_merge(array, size, start, jump, flow);
 		bitonic_merge(array, size, start + jump, jump, flow);
@@ -54,6 +56,7 @@ void bitonic_merge(int *array, size_t size, size_t start, size_t seq, char flow)
  * @array: An array of integers.
  * @size: The size of the array.
  * @start: The starting index of a block of the building bitonic sequence.
+ * @seq: The size of a block of the building bitonic sequence.
  * @flow: The direction to sort the bitonic sequence block in.
  */
 void bitonic_seq(int *array, size_t size, size_t start, size_t seq, char flow)
@@ -65,8 +68,9 @@ void bitonic_seq(int *array, size_t size, size_t start, size_t seq, char flow)
 	{
 		printf("Merging [%lu/%lu] (%s):\n", seq, size, str);
 		print_array(array + start, seq);
+		
 		bitonic_seq(array, size, start, cut, UP);
-		bitonic_swq(array, size, start + cut, cut, DOWN);
+		bitonic_seq(array, size, start + cut, cut, DOWN);
 		bitonic_merge(array, size, start, seq, flow);
 
 		printf("Result [%lu/%lu] (%s):\n", seq, size, str);
@@ -81,7 +85,7 @@ void bitonic_seq(int *array, size_t size, size_t start, size_t seq, char flow)
  * @size: The size of the array.
  *
  * Description: Prints the array after each swap. Only works for
- * size = 2^k where k >= 0 (i.e. size equal tp powers of 2).
+ * size = 2^k where k >= 0 (i.e. size equal to powers of 2).
  */
 void bitonic_sort(int *array, size_t size)
 {
